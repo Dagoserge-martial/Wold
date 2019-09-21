@@ -1,0 +1,189 @@
+{% extends 'bases/home_base.html' %}
+
+{% block content %}
+
+<!-- ********** Hero Area Start ********** -->
+<div class="hero-area height-400 bg-img background-overlay" style="background-image: url(/static/img/blog-img/bg3.jpg);"></div>
+<!-- ********** Hero Area End ********** -->
+
+<div class="main-content-wrapper section-padding-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- ============= Post Content Area Start ============= -->
+            <div class="col-12 col-lg-8">
+                <div class="post-content-area mb-100">
+                    <!-- Catagory Area -->
+                    <div class="world-catagory-area">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="title">Lifestyle</li>
+
+                            <li class="nav-item">
+                                <a class="nav-link active" id="tab1" data-toggle="tab" href="#world-tab-1" role="tab" aria-controls="world-tab-1" aria-selected="true">All</a>
+                            </li>
+                            {% for categ in categorie %}
+                            {% if forloop.counter <= 5 %}
+                            <li class="nav-item">
+                                <a class="nav-link" id="tab{{forloop.counter|add:'1'}}" data-toggle="tab" href="#world-tab-{{forloop.counter|add:'1'}}" role="tab" aria-controls="world-tab-2" aria-selected="false">{{ categ.nom }}</a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">More</a>
+                                <div class="dropdown-menu">
+                                    {% for categ in categorie %}
+                                    {% if forloop.counter > 5 %} 
+                                    <a class="nav-link" id="tab{{forloop.counter|add:'1'}}" data-toggle="tab" href="#world-tab-{{forloop.counter|add:'1'}}" role="tab" aria-controls="world-tab-7" aria-selected="false">{{ categ.nom }}</a>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="myTabContent">
+
+                            <div class="tab-pane fade show active" id="world-tab-1" role="tabpanel" aria-labelledby="tab1">
+                                <!-- Single Blog Post -->
+                                {% for all_categ in article_all %}
+                                {% if forloop.counter <= 8 %}
+                                <div class="single-blog-post post-style-4 d-flex align-items-center">
+                                    <!-- Post Thumbnail -->
+                                    <div class="post-thumbnail">
+                                        <a href="{% url 'detail' all_categ.id %}"><img src="{{ all_categ.image_cat.url }}" alt=""></a>
+                                        
+                                    </div>
+                                    <!-- Post Content -->
+                                    <div class="post-content">
+                                        <a href="{% url 'detail' all_categ.id %}" class="headline">
+                                            <h5>{{ all_categ.titre }}</h5>
+                                        </a>
+                                        <p>{{ all_categ.description|truncatechars:150 }}</p>
+                                        <!-- Post Meta -->
+                                        <div class="post-meta">
+                                            <p><a href="{% url 'detail' all_categ.id %}" class="post-author">{{ all_categ.auteur }}</a> on 
+                                                <a href="{% url 'detail' all_categ.id %}" class="post-date">{{ all_categ.date_upd|date:"M d Y" }} à {{ all_categ.date_upd|date:"G:i" }}</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+
+                            </div>
+                            {% for cate_aticle in categorie %}
+                            <div class="tab-pane fade" id="world-tab-{{forloop.counter|add:'1'}}" role="tabpanel" aria-labelledby="tab{{forloop.counter|add:'1'}}">
+                                <!-- Single Blog Post -->
+                                {% for cates in cate_aticle.categorie_post.all %}
+                                {% if forloop.counter <= 5 %}
+                                <div class="single-blog-post post-style-4 d-flex align-items-center">
+                                    <!-- Post Thumbnail -->
+                                    <div class="post-thumbnail">
+                                        <a href="{% url 'detail' cates.id %}"><img src="{{ cates.image_detail.url }}" alt=""></a>
+                                        
+                                    </div>
+                                    <!-- Post Content -->
+                                    <div class="post-content">
+                                        <a href="{% url 'detail' cates.id %}" class="headline">
+                                            <h5>{{ cates.titre }}</h5>
+                                        </a>
+                                        <p>{{ cates.description|truncatechars:150 }}</p>
+                                        <!-- Post Meta -->
+                                        <div class="post-meta">
+                                            <p><a href="{% url 'detail' cates.id %}" class="post-author">{{ cates.auteur }}</a> on 
+                                                <a href="{% url 'detail' cates.id %}" class="post-date">{{ all_categ.date_upd|date:"M d Y" }} à {{ all_categ.date_upd|date:"G:i" }}</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== Sidebar Area ========== -->
+            <div class="col-12 col-md-8 col-lg-4">
+                <div class="post-sidebar-area">
+                    <!-- Widget Area -->
+                    <div class="sidebar-widget-area">
+                        <h5 class="title">About World</h5>
+                        <div class="widget-content">
+                            <p>The mango is perfect in that it is always yellow and if it’s not, I don’t want to hear about it. The mango’s only flaw, and it’s a minor one, is the effort it sometimes takes to undress the mango, carve it up in a way that makes sense, and find its way to the mouth.</p>
+                        </div>
+                    </div>
+                    <!-- Widget Area -->
+                    <div class="sidebar-widget-area">
+                        <h5 class="title">Top Stories</h5>
+                        <div class="widget-content">
+                            <!-- Single Blog Post -->
+                            {% for atcl in article_all %}
+                            {% if forloop.counter > 5 and forloop.counter <= 9 %}
+                            <div class="single-blog-post post-style-2 d-flex align-items-center widget-post">
+                                <!-- Post Thumbnail -->
+                                <div class="post-thumbnail">
+                                    <a href="{% url 'detail' atcl.id %}"><img src="{{ atcl.image_detail.url }}" alt=""></a>
+                                    
+                                </div>
+                                <!-- Post Content -->
+                                <div class="post-content">
+                                    <a href="{% url 'detail' atcl.id %}" class="headline">
+                                        <h5 class="mb-0">{{ atcl.description|truncatechars:50 }}</h5>
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <!-- Widget Area -->
+                    <div class="sidebar-widget-area">
+                        <h5 class="title">Stay Connected</h5>
+                        <div class="widget-content">
+                            <div class="social-area d-flex justify-content-between">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-pinterest"></i></a>
+                                <a href="#"><i class="fa fa-vimeo"></i></a>
+                                <a href="#"><i class="fa fa-instagram"></i></a>
+                                <a href="#"><i class="fa fa-google"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Widget Area -->
+                    <div class="sidebar-widget-area">
+                        <h5 class="title">Today’s Pick</h5>
+                        <div class="widget-content">
+                            <!-- Single Blog Post -->
+                            <div class="single-blog-post todays-pick">
+                                <!-- Post Thumbnail -->
+                                <div class="post-thumbnail">
+                                    <img src="/static/img/blog-img/b22.jpg" alt="">
+                                </div>
+                                <!-- Post Content -->
+                                <div class="post-content px-0 pb-0">
+                                    <a href="#" class="headline">
+                                        <h5>How Did van Gogh’s Turbulent Mind Depict One of the Most Complex Concepts in Physics?</h5>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More btn -->
+        <div class="row">
+            <div class="col-12">
+                <div class="load-more-btn mt-50 text-center">
+                    <a href="#" class="btn world-btn">Load More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
